@@ -15,7 +15,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity(name = "tb_users")
-//@Table(name = "tb_users")
 @Getter
 @Setter
 @AllArgsConstructor
