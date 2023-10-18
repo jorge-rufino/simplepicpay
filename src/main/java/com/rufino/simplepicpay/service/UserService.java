@@ -1,6 +1,7 @@
 package com.rufino.simplepicpay.service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class UserService {
 	
 	public void validateTransaction(User sender, BigDecimal amounth) throws Exception{
 		
-		if(sender.getType() == UserType.MERCHANT) {
+		if(sender.getUserType() == UserType.MERCHANT) {
 			throw new Exception("Um usuário do tipo lojista não pode fazer transações.");
 		}
 		
@@ -32,5 +33,9 @@ public class UserService {
 	
 	public User save(User user) {
 		return repository.save(user);
+	}
+	
+	public List<User> findAll(){
+		return repository.findAll();
 	}
 }
