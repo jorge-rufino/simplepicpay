@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import com.rufino.simplepicpay.domain.Transaction;
 import com.rufino.simplepicpay.domain.User;
 import com.rufino.simplepicpay.dto.TransactionDto;
+import com.rufino.simplepicpay.exception.TransactionException;
 import com.rufino.simplepicpay.repository.TransactionRepository;
 
 @Service
@@ -38,7 +39,7 @@ public class TransactionService {
 		
 		boolean isAuthorized = authorizeTransaction(sender, transaction.value());
 		if(!isAuthorized) {
-			throw new Exception("Transação não está autorizada!");
+			throw new TransactionException("Transação não está autorizada!");
 		}
 		
 		Transaction newTransaction = new Transaction();

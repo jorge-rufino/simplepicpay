@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate;
 
 import com.rufino.simplepicpay.domain.User;
 import com.rufino.simplepicpay.dto.NotificationDto;
+import com.rufino.simplepicpay.exception.NotificationException;
 
 @Service
 public class NotificationService {
@@ -23,7 +24,7 @@ public class NotificationService {
 		ResponseEntity<String> notificationResponse = restTemplate.postForEntity("http://localhost:8080/mocks", notificationRequest, String.class);
 		
 		if( !(notificationResponse.getStatusCode() == HttpStatus.OK) ) {
-			throw new Exception("Serviço de notificação não está disponível.");
+			throw new NotificationException("Serviço de notificação não está disponível.");
 		}
 	}
 }
