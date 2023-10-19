@@ -27,7 +27,10 @@ public class TransactionService {
 	@Autowired
 	private RestTemplate restTemplate;
 	
-	public void createTransaction(TransactionDto transaction) throws Exception {
+	@Autowired
+	private NotificationService notificationService;
+	
+	public Transaction createTransaction(TransactionDto transaction) throws Exception {
 		User sender = userService.findUserById(transaction.senderId());
 		User receiver = userService.findUserById(transaction.receiverId());
 		
@@ -50,11 +53,16 @@ public class TransactionService {
 		repository.save(newTransaction);
 		userService.save(sender);
 		userService.save(receiver);
+		
+		notificationService.sendNotification(sender, "Transação efetuada com sucesso! Valor enviado: R$" + transaction.value());
+		notificationService.sendNotification(receiver, "Transação recebida com sucesso! Valor recebido: R$" + transaction.value());
+		
+		return newTransaction;
 	}
 	
 //	Simula uma requisição em um endpoint de terceiro que vai retornar um "message" com valor de "Autorizado" ou "Negado"
 	public boolean authorizeTransaction(User sender, BigDecimal value) {
-		ResponseEntity<Map> authorizationResponse = restTemplate.getForEntity("URL do serviço de terceiro", Map.class);
+		ResponseEntity<Map> authorizationResponse = restTemplate.getForEntity("http://localhost:8080/mocks", Map.class);
 		
 		if(authorizationResponse.getStatusCode() == HttpStatus.OK) {
 			String message = (String) authorizationResponse.getBody().get("message");

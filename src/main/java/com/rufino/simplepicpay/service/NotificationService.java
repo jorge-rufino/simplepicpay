@@ -19,7 +19,8 @@ public class NotificationService {
 		String email = user.getEmail();
 		NotificationDto notificationRequest = new NotificationDto(email, message);
 		
-		ResponseEntity<String> notificationResponse = restTemplate.postForEntity("Url do serviço", notificationRequest, String.class);
+//		Esta seria a implementação com um serviço de terceiro
+		ResponseEntity<String> notificationResponse = restTemplate.postForEntity("http://localhost:8080/mocks", notificationRequest, String.class);
 		
 		if( !(notificationResponse.getStatusCode() == HttpStatus.OK) ) {
 			throw new Exception("Serviço de notificação não está disponível.");
