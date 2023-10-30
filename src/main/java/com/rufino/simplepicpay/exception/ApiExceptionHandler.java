@@ -39,7 +39,9 @@ public class ApiExceptionHandler {
 	@ExceptionHandler(EntidadeNaoEncontradaException.class)
 	public ResponseEntity<?> handlerEntidadeNaoEncontradaException(EntidadeNaoEncontradaException e) {
 
-		ExceptionDto exceptionDto = new ExceptionDto(e.getMessage(), "404");
+		ExceptionDto exceptionDto = new ExceptionDto(e.getMessage(), "404"
+				+ ""
+				+ "");
 
 		return new ResponseEntity<>(exceptionDto, HttpStatus.NOT_FOUND);
 	}
